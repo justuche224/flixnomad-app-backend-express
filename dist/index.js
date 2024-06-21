@@ -145,6 +145,15 @@ app.post("/api/new-movies", async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 });
+// Handle undefined routes
+app.use((req, res) => {
+    res.status(404).json({ message: "Route not found" });
+});
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: "An internal server error occurred" });
+});
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
